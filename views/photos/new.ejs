@@ -1,10 +1,11 @@
 <%
 var photos_url = process.env.PHOTOS_URL || "http://localhost:8000";
 %>
-<form action="/photos" method="post">  
+<form action="/photos" method="post">
 	<label class="upload_field">Upload a new photo:</label>
 	<span class="upload_field"> Photo name: <input type="text" name="name"></span><br>
 	<input type="hidden" name="url">
+	<input class="upload_field" type="hidden" name="likes" value="0">
 	<input class="upload_field" type="file" name="photo"/>
 	<button class="hint upload_field">Upload</button>
 	<span class="hint upload_field">Supported files: PNG, JPG, JPEG, ...</span>
@@ -19,7 +20,7 @@ $('button').click(function (evt) {
 	var url = '<%=photos_url%>/photos';
 	var data = new FormData();
 	data.append('photo', file);
-
+	data.append('likes', '0');
 	// Crea la imagen en el servidor de imágenes
 	$.ajax({
 		url: url,
@@ -32,7 +33,7 @@ $('button').click(function (evt) {
 			200: function (data, status, xhr) {
 				// Una vez creada envía al servidor CDPSgram-server la url para crear la entrada en la base de datos
 				var url = '<%=photos_url%>' + data.responseText;
-				$('input[type=hidden]').val(url);
+				$('input[name=url]').val(url);
 				$('form').submit();
 			}
 		}

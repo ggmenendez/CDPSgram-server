@@ -26,18 +26,45 @@ exports.create = function (req, res) {
 	console.log('Nuevo fichero: ', req.body);
 	var name = req.body.name;
 	var url = req.body.url;
+	var likes = req.body.likes;
 	var id = Math.random().toString(36).substr(2, 10);
-	
+
 	// Escribe los metadatos de la nueva foto en el registro.
 	photo_model.photos[id] = {
 		name: name,
-		url: url
+		url: url,
+		likes: likes,
+		tags: tags
 	};
 
 	res.redirect('/photos');
 };
 
-// Borra una foto (photoId) del registro de imagenes 
+exports.like = function(req, res){
+	var photoId = req.params.photoId;
+	var photo = photo_model.photos[photoId];
+	photo.likes = parseInt(photo.likes) + 1;
+	res.render('photos/show', {photo: photo});
+}
+
+exports.tag = function(req, res){
+	var photoId = req.params.photoId;
+	var photo = photo_model.photos[photoId];
+	if (req.body.OK == "OK"){
+		photo.tags.push(req.body.tag);
+	}
+	else if (req.body.DELETE = "DELETE"){
+		var i = photo.tags.indexOf(req.body.tag);
+		if( i!== -1){
+			photo.tags.splice(i, 1);
+		}
+	}
+
+	console.log(req.body);
+	res.render('photos/show', {photo: photo});
+}
+
+// Borra una foto (photoId) del registro de imagenes
 exports.destroy = function (req, res) {
 	var photoId = req.params.photoId;
 

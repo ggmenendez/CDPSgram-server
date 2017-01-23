@@ -17,6 +17,8 @@ router.get('/photos/new', photoController.new);
 router.get('/photos/:photoId', photoController.show);
 
 router.post('/photos', multer({inMemory: true}), photoController.create);
+router.post('/photos/like/:photoId', multer({inMemory: true}), photoController.like);
+router.post('/photos/tag/:photoId', multer({inMemory: true}), photoController.tag);
 
 router.delete('/photos/:photoId', photoController.destroy);
 

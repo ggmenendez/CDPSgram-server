@@ -4,8 +4,19 @@ var photos_url = process.env.PHOTOS_URL || "http://localhost:8000";
 <div class="photo photo_playing">
 	<p><%=photo.name%></p>
 	<img src="<%=photo.url%>"></img>
-	
-	<form method="post" action="/photos/<%=photo.id%>?_method=delete">
+	<p> Likes: <%=photo.likes%><br>
+	Etiquetas:  <%=photo.tags%> </p>
+	<form id="tag" method="post" action="/photos/tag/<%=photo.id%>?_method=post">
+		Tag: <input type="text" name="tag"></span>
+		<input type ="submit" value="OK" name="OK">
+		<input type ="submit" value="DELETE" name="DELETE">
+	</form>
+	<form id="like" method="post" action="/photos/like/<%=photo.id%>?_method=post">
+	    <button onClick="return confirm('Like: <%=photo.name%>. Are you sure? ');">
+	      Me gusta
+	    </button>
+  	</form>
+	<form id="delete" method="post" action="/photos/<%=photo.id%>?_method=delete">
 	    <button onClick="return confirm('Delete: <%=photo.name%>. Are you sure? ');">
 	      Delete photo
 	    </button>
@@ -13,7 +24,7 @@ var photos_url = process.env.PHOTOS_URL || "http://localhost:8000";
 </div>
 
 <script type="text/javascript">
-$('button').click(function (evt) {
+$('#delete').click(function (evt) {
 
 	evt.preventDefault();
 	var url = '<%=photo.url%>';
@@ -25,7 +36,30 @@ $('button').click(function (evt) {
 		statusCode: {
 			200: function (data, status, xhr) {
 				// Una vez borrada envía al servidor CDPSgram-server la petición para eliminar la entrada en la base de datos
-				$('form').submit();
+				$('#delete').submit();
+			}
+		}
+	});
+});
+$('#like').click(function (evt) {
+	console.log("like");
+	evt.preventDefault();
+	var url = '<%=photo.url%>';
+	var data = new FormData();
+	data.append('likes', '0');
+	console.log(data);
+	// Borra la imagen del servidor de imágenes
+	$.ajax({
+		url: url,
+		type: 'PUT',
+		processData: false,
+		contentType: false,
+		dataType : 'json',
+		data: datos,
+		statusCode: {
+			200: function (data, status, xhr) {
+				// Una vez borrada envía al servidor CDPSgram-server la petición para eliminar la entrada en la base de datos
+				$('#like').submit();
 			}
 		}
 	});

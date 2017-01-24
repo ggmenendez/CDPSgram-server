@@ -20,7 +20,7 @@ $('button').click(function (evt) {
 	var url = '<%=photos_url%>/photos';
 	var data = new FormData();
 	data.append('photo', file);
-	data.append('likes', '0');
+	data.append('likes', 0);
 	// Crea la imagen en el servidor de imágenes
 	$.ajax({
 		url: url,

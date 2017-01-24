@@ -34,7 +34,7 @@ exports.create = function (req, res) {
 		name: name,
 		url: url,
 		likes: likes,
-		tags: tags
+		tags: []
 	};
 
 	res.redirect('/photos');
@@ -50,6 +50,7 @@ exports.like = function(req, res){
 exports.tag = function(req, res){
 	var photoId = req.params.photoId;
 	var photo = photo_model.photos[photoId];
+	console.log(photo);
 	if (req.body.OK == "OK"){
 		photo.tags.push(req.body.tag);
 	}
@@ -59,8 +60,6 @@ exports.tag = function(req, res){
 			photo.tags.splice(i, 1);
 		}
 	}
-
-	console.log(req.body);
 	res.render('photos/show', {photo: photo});
 }
 

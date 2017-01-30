@@ -1,26 +1,28 @@
 <%
 var photos_url = process.env.PHOTOS_URL || "http://localhost:8000";
 %>
-<div class="photo photo_playing">
-	<p><%=photo.name%></p>
-	<img src="<%=photo.url%>"></img>
-	<p> Likes: <%=photo.likes%><br>
-	Etiquetas:  <%=photo.tags%> </p>
-	<form id="tag" method="post" action="/photos/tag/<%=photo.id%>?_method=post">
-		Tag: <input type="text" name="tag"></span>
-		<input type ="submit" value="OK" name="OK">
-		<input type ="submit" value="DELETE" name="DELETE">
-	</form>
-	<form id="like" method="post" action="/photos/like/<%=photo.id%>?_method=post">
-	    <button onClick="return confirm('Like: <%=photo.name%>. Are you sure? ');">
-	      Me gusta
-	    </button>
-  	</form>
-	<form id="delete" method="post" action="/photos/<%=photo.id%>?_method=delete">
-	    <button onClick="return confirm('Delete: <%=photo.name%>. Are you sure? ');">
-	      Delete photo
-	    </button>
-  	</form>
+<div id=photo-container>
+	<div class="photo photo_playing">
+		<p><%=photo.name%></p>
+		<img src="<%=photo.url%>"></img>
+		<p> Likes: <%=photo.likes%><br>
+		Etiquetas:  <%=photo.tags%> </p>
+		<form id="tag" method="post" action="/photos/tag/<%=photo.id%>?_method=post">
+			Tag: <input type="text" name="tag"></span>
+			<input type ="submit" value="OK" name="OK">
+			<input type ="submit" value="DELETE" name="DELETE">
+		</form>
+		<form id="like" method="post" action="/photos/like/<%=photo.id%>?_method=post">
+		    <button onClick="return confirm('Like: <%=photo.name%>. Are you sure? ');">
+		      Me gusta
+		    </button>
+	  	</form>
+		<form id="delete" method="post" action="/photos/<%=photo.id%>?_method=delete">
+		    <button onClick="return confirm('Delete: <%=photo.name%>. Are you sure? ');">
+		      Delete photo
+		    </button>
+	  	</form>
+	</div>
 </div>
 
 <script type="text/javascript">
